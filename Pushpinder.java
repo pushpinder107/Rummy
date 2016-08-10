@@ -1,5 +1,7 @@
 package structures;
 
+import java.util.List;
+
 public class Pushpinder {
 
 	public int getSets(Hand hand) {
@@ -26,10 +28,7 @@ public class Pushpinder {
 			for (int i = 0; i < handStr.length() - 4; i++) {
 				if (handStr.charAt(i) == '0' && handStr.charAt(i + 1) == '0' && handStr.charAt(i + 2) == '0'
 						&& handStr.charAt(i + 3) == '0') {
-					hand.cardsInHand().remove(i);
-					hand.cardsInHand().remove(i + 1);
-					hand.cardsInHand().remove(i + 2);
-					hand.cardsInHand().remove(i + 3);
+					removeCardsBetweenIndices(hand.cardsInHand(), 1, i + 3);
 				}
 				handStr.replaceFirst(setOfFour, "");
 			}
@@ -39,9 +38,7 @@ public class Pushpinder {
 		if (handStr.contains(setOfThree)) {
 			for (int i = 0; i < handStr.length() - 4; i++) {
 				if (handStr.charAt(i) == '0' && handStr.charAt(i + 1) == '0' && handStr.charAt(i + 2) == '0') {
-					hand.cardsInHand().remove(i);
-					hand.cardsInHand().remove(i + 1);
-					hand.cardsInHand().remove(i + 2);
+					removeCardsBetweenIndices(hand.cardsInHand(), 1, i + 2);
 				}
 			}
 			handStr.replaceFirst(setOfThree, "");
@@ -49,6 +46,13 @@ public class Pushpinder {
 		}
 
 		return setCount;
+
+	}
+
+	public void removeCardsBetweenIndices(List<Card> list, int start, int end) {
+		for (int i = start; i <= end; i++) {
+			list.remove(i);
+		}
 
 	}
 }
