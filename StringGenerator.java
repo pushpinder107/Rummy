@@ -27,7 +27,7 @@ public class StringGenerator
 	
 	public static boolean hasSameFaceValue(Card c1, Card c2)//can change it to non-static just to check from main I converted them to static
 	{
-		return (c1.getFace()==c2.getFace());
+		return ((c1.getFace()==c2.getFace())&&(c1.getSuit()!=c2.getSuit()));
 	}
 	
 	public static boolean partOfSeq(Card c1, Card c2)//can change it to non-static just to check from main I converted them to static
