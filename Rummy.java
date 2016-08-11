@@ -44,11 +44,11 @@ public class Rummy {
 			setCount++;
 		}
 
-		String[] setsOfFour = { "000", "x000x", "1000x", "x0001", "10001" };
+		String[] setsOfFour = { "x000x", "1000x", "x0001", "10001", "000" };
 		for (String s : setsOfFour) {
 			while (str.contains(s)) {
 				setCount++;
-				str = str.replaceFirst(s, "");
+				str = str.replaceFirst(s, "##");
 			}
 		}
 		this.setsOfFour = setCount;
@@ -65,7 +65,7 @@ public class Rummy {
 			setCount++;
 		}
 
-		String[] setsOfThree = { "00", "100x", "x001", "1001" };
+		String[] setsOfThree = { "100x", "x001", "1001", "00" };
 		for (String s : setsOfThree) {
 			while (str.contains(s)) {
 				setCount++;
@@ -74,6 +74,10 @@ public class Rummy {
 		}
 		this.setsOfThree = setCount;
 		return str;
+	}
+
+	public String getSequencesOfThree(String str) {
+		return "";
 	}
 
 }
