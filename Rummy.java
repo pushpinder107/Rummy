@@ -1,15 +1,11 @@
 package structures;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Rummy {
 
 	private Hand hand;
-	private int setsOfFour = 0;
-	private int setsOfThree = 0;
-	private int seqOfFive = 0;
-	private int seqOfFour = 0;
-	private int seqOfThree = 0;
 
 	public Rummy() {
 
@@ -50,32 +46,42 @@ public class Rummy {
 		System.out.println("Hand : " + hand.toString());
 		System.out.println("String : " + StringGenerator.diff(hand));
 		System.out.println("Is seq of 5 : " + hasSeqOfFive(hand));
+		play();
 
 	}
 
-	public void play(Hand h) {
-		while (hasSeqOfFive(h)) {
+	public void play() {
+
+		if (hasSeqOfFive(hand)) {
+			System.out.println("hasSeqOfFive");
 			consumeSequenceOfFive();
 		}
 
-		while (hasSeqOfFour(h)) {
+		while (hasSeqOfFour(hand)) {
+			System.out.println("hasSeqOfFour");
 			consumeSequenceOfFour();
 		}
 
-		while (hasSeqOfThree(h)) {
+		while (hasSeqOfThree(hand)) {
+			System.out.println("hasSeqOfThree");
 			consumeSequenceOfThree();
 		}
 
-		while (hasSetOfFour(h)) {
+		while (hasSetOfFour(hand)) {
+			System.out.println("hasSetOfFour");
 			consumeSetOfFour();
 		}
 
-		while (hasSetOfThree(h)) {
+		while (hasSetOfThree(hand)) {
+			System.out.println("hasSetOfFour");
 			consumeSetOfThree();
 		}
 
-		// if hand is still non empty, check if one card needed for seq of 5,
-		// etc
+		if (hand.cardsInHand().size() == 0) {
+			System.out.println("No cards needed");
+			return;
+		}
+
 	}
 
 	public boolean hasSetOfFour(Hand h) {
@@ -100,6 +106,7 @@ public class Rummy {
 
 	public boolean hasSeqOfFour(Hand h) {
 		String str = StringGenerator.diff(h);
+		//System.out.println("String " + str);
 		return str.contains("111");
 	}
 
@@ -135,18 +142,70 @@ public class Rummy {
 	}
 
 	public void consumeSequenceOfFive() {
-
+		this.hand.sortByFace();
+		String str = StringGenerator.diff(this.hand);
+		int startIndex = str.indexOf("1111", 0);
+		int endIndex = startIndex + 4;
+		System.out.println(hand.toString());
+		System.out.println("Removing cards at :" + startIndex + " to :" + endIndex);
+		List<Card> copyList = new ArrayList<Card>();
+		copyList.addAll(this.hand.cardsInHand());
+		for (int i = startIndex; i <= endIndex; i++) {
+			Card cardToRemove = copyList.get(i);
+			System.out.println("Removing : " + cardToRemove.toString());
+			hand.removeCard(cardToRemove);
+		}
+		System.out.println(hand.toString());
 	}
 
 	public void consumeSequenceOfFour() {
+		String str = StringGenerator.diff(this.hand);
+		int startIndex = str.indexOf("111", 0);
+		int endIndex = startIndex + 3;
+		System.out.println(hand.toString());
+		System.out.println("Removing cards at :" + startIndex + " to :" + endIndex);
+		List<Card> copyList = new ArrayList<Card>();
+		copyList.addAll(this.hand.cardsInHand());
+		for (int i = startIndex; i <= endIndex; i++) {
+			Card cardToRemove = copyList.get(i);
+			System.out.println("Removing : " + cardToRemove.toString());
+			hand.removeCard(cardToRemove);
+		}
+		System.out.println(hand.toString());
 
 	}
 
 	public void consumeSequenceOfThree() {
+		String str = StringGenerator.diff(this.hand);
+		int startIndex = str.indexOf("11", 0);
+		int endIndex = startIndex + 2;
+		System.out.println(hand.toString());
+		System.out.println("Removing cards at :" + startIndex + " to :" + endIndex);
+		List<Card> copyList = new ArrayList<Card>();
+		copyList.addAll(this.hand.cardsInHand());
+		for (int i = startIndex; i <= endIndex; i++) {
+			Card cardToRemove = copyList.get(i);
+			System.out.println("Removing : " + cardToRemove.toString());
+			hand.removeCard(cardToRemove);
+		}
+		System.out.println(hand.toString());
 
 	}
 
 	public void consumeSetOfFour() {
+		String str = StringGenerator.diff(this.hand);
+		int startIndex = str.indexOf("000", 0);
+		int endIndex = startIndex + 3;
+		System.out.println(hand.toString());
+		System.out.println("Removing cards at :" + startIndex + " to :" + endIndex);
+		List<Card> copyList = new ArrayList<Card>();
+		copyList.addAll(this.hand.cardsInHand());
+		for (int i = startIndex; i <= endIndex; i++) {
+			Card cardToRemove = copyList.get(i);
+			System.out.println("Removing : " + cardToRemove.toString());
+			hand.removeCard(cardToRemove);
+		}
+		System.out.println(hand.toString());
 
 	}
 

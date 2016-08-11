@@ -14,7 +14,7 @@ public class TestRummy {
 		StringGenerator s = new StringGenerator();
 		System.out.println(s.diff(h));
 		System.out.println();
-		game.evaluate();
+		//game.evaluate();
 		ArrayList<Card> mixedHand = new ArrayList<>();
 		mixedHand.addAll(getNofSameFace(3, 4));
 		mixedHand.addAll(getNofSameFace(2, 5));
@@ -23,10 +23,12 @@ public class TestRummy {
 		mixedHand.addAll(getNofSameFace(1, 3));
 		mixedHand.addAll(getNofSameFace(2, 8));
 		Hand mixed = new Hand(mixedHand);
+		mixed.sortByFace();
 		Rummy game2 = new Rummy(mixed);
-		game2.evaluate();
+		//game2.evaluate();
 
 		ArrayList<Card> seqHand = new ArrayList<>();
+		seqHand.addAll(getNofSameFace(1, 2));
 		seqHand.addAll(getNofSameFace(1, 4));
 		seqHand.addAll(getNofSameFace(1, 5));
 		seqHand.addAll(getNofSameFace(1, 6));
@@ -36,6 +38,7 @@ public class TestRummy {
 		seqHand.addAll(getNofSameFace(1, 10));
 		Hand seq = new Hand(seqHand);
 		Rummy game3 = new Rummy(seq);
+		seq.sortByFace();
 		game3.evaluate();
 
 	}
