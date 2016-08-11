@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class TestRow {
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		// TODO Auto-generated method stub
 		String input = "SDf";//pushp fn
 		for(int i=1;i<input.length();i++)
@@ -63,17 +62,6 @@ public class TestRow {
 		}
 		// call merge function on ans2
 		//return ans2
-=======
-		while (true) {
-			Row r = InputParser.getInputRow();
-			if (r == null) {
-				System.out.println("Ending");
-				break;
-			}
-
-			System.out.println(r.toString());
-		}
->>>>>>> 92ca9a8c307955f98251a7f4779bac31fa4450d1
 	}
 
 }
