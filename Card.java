@@ -1,6 +1,6 @@
-package structures;
+package wordsFreq;
 
-public class Card {
+public class Card implements Comparable{
 	public static int TWO = 2;
 	public static int JACK = 11;
 	public static int QUEEN = 12;
@@ -51,10 +51,20 @@ public class Card {
 				&& (this.face == other.face); 
 	}
 	
+	@Override
 	public String toString() {
 		if (this.face == Card.JOKER) {
 			return "Joker";
 		}
 		return FACE_NAMES[this.face] + " of " + SUIT_NAMES[this.suit];
 	}
+	
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		int compareFace=((Card)o).getFace();
+        return this.face-compareFace;
+	}
+
+	
 }
