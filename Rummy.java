@@ -1,5 +1,7 @@
 package structures;
 
+import java.util.ArrayList;
+
 public class Rummy {
 
 	private Hand hand;
@@ -26,120 +28,62 @@ public class Rummy {
 	}
 
 	public void evaluate() {
-		System.out.println("Hand is : " + this.hand.toString());
-		this.hand.sortByFace();
-		System.out.println("Sorted hand is : " + this.hand.toString());
-		String handString = StringGenerator.diff(this.hand);
-		System.out.println("Hand : " + handString);
-		String str = getSetsOfFour(handString);
-		System.out.println("Sets of 4 : " + this.setsOfFour);
-		System.out.println("Sets of 3 : " + this.setsOfThree);
-		str = getSequencesOfFive(handString);
-		System.out.println("Seqs of 5 : " + this.seqOfFive);
-		str = getSequencesOfFour(str);
-		System.out.println("Seqs of 4 : " + this.seqOfFour);
-		str = getSequencesOfThree(str);
-		System.out.println("Seqs of 3 : " + this.seqOfThree);
+		/*
+		 * System.out.println("Hand is : " + this.hand.toString());
+		 * this.hand.sortByFace(); System.out.println("Sorted hand is : " +
+		 * this.hand.toString()); String handString =
+		 * StringGenerator.diff(this.hand); System.out.println("Hand : " +
+		 * handString); String str = getSetsOfFour(handString);
+		 * System.out.println("Sets of 4 : " + this.setsOfFour);
+		 * System.out.println("Sets of 3 : " + this.setsOfThree); str =
+		 * getSequencesOfFive(handString); System.out.println("Seqs of 5 : " +
+		 * this.seqOfFive); str = getSequencesOfFour(str);
+		 * System.out.println("Seqs of 4 : " + this.seqOfFour); str =
+		 * getSequencesOfThree(str); System.out.println("Seqs of 3 : " +
+		 * this.seqOfThree);
+		 * 
+		 * int result = this.setsOfFour * 4 + this.setsOfThree * 3 +
+		 * this.seqOfFive * 5 + this.seqOfFour * 4 + this.seqOfThree * 3;
+		 * System.out.println("Cards consumed : " + result);
+		 */
 
-		int result = this.setsOfFour * 4 + this.setsOfThree * 3 + this.seqOfFive * 5 + this.seqOfFour * 4
-				+ this.seqOfThree * 3;
-		System.out.println("Cards consumed : " + result);
+		System.out.println("Hand : " + hand.toString());
+		System.out.println("String : " + StringGenerator.diff(hand));
+		System.out.println("Is seq of 5 : " + hasSeqOfFive(hand));
 
 	}
 
-	public String getSetsOfFour(String str) {
-		int setCount = 0;
-
-		if (str.startsWith("000")) {
-			str = str.replaceFirst("000", "###");
-			setCount++;
+	public void play(Hand h) {
+		while (hasSeqOfFive(h)) {
+			consumeSequenceOfFive();
 		}
 
-		String[] setsOfFour = { "x000x", "1000x", "x0001", "10001", "000" };
-		for (String s : setsOfFour) {
-			while (str.contains(s)) {
-				setCount++;
-				str = str.replaceFirst(s, "##");
-			}
+		while (hasSeqOfFour(h)) {
+			consumeSequenceOfFour();
 		}
-		this.setsOfFour = setCount;
-		return str;
+
+		while (hasSeqOfThree(h)) {
+			consumeSequenceOfThree();
+		}
+
+		while (hasSetOfFour(h)) {
+			consumeSetOfFour();
+		}
+
+		while (hasSetOfThree(h)) {
+			consumeSetOfThree();
+		}
+
+		// if hand is still non empty, check if one card needed for seq of 5,
+		// etc
 	}
 
-	public String getSetsOfThree(String str) {
-		int setCount = 0;
-		if (str.startsWith("00")) {
-			str = str.replaceFirst("00", "##");
-			setCount++;
-		}
-
-		String[] setsOfThree = { "100x", "x001", "1001", "00" };
-		for (String s : setsOfThree) {
-			while (str.contains(s)) {
-				setCount++;
-				str = str.replaceFirst(s, "##");
-			}
-		}
-		this.setsOfThree = setCount;
-		return str;
-	}
-
-	public String getSequencesOfFive(String str) {
-		int setCount = 0;
-		if (str.startsWith("1111")) {
-			str = str.replaceFirst("1111", "####");
-			setCount++;
-		}
-
-		String[] setsOfFour = { "x1111x", "01111x", "x11110", "011110", "1111" };
-		for (String s : setsOfFour) {
-			while (str.contains(s)) {
-				setCount++;
-				str = str.replaceFirst(s, "##");
-			}
-		}
-		this.seqOfFive = setCount;
-		return str;
-	}
-
-	public String getSequencesOfFour(String str) {
-		int setCount = 0;
-		if (str.startsWith("111")) {
-			str = str.replaceFirst("111", "###");
-			setCount++;
-		}
-
-		String[] setsOfFour = { "x111x", "0111x", "x1110", "01110", "111" };
-		for (String s : setsOfFour) {
-			while (str.contains(s)) {
-				setCount++;
-				str = str.replaceFirst(s, "##");
-			}
-		}
-		this.seqOfFour = setCount;
-		return str;
-	}
-
-	public String getSequencesOfThree(String str) {
-		int setCount = 0;
-
-		String[] setsOfFour = { "x11x", "011x", "x110", "0110", "11" };
-		for (String s : setsOfFour) {
-			while (str.contains(s)) {
-				setCount++;
-				str = str.replaceFirst(s, "##");
-			}
-		}
-		this.seqOfThree = setCount;
-		return str;
-	}
-
-	public boolean isSetOfFour(Hand h) {
+	public boolean hasSetOfFour(Hand h) {
 		String str = StringGenerator.diff(h);
 		return str.equals("000");
 	}
 
-	public boolean isSetOfThree(Hand h) {
+	public boolean hasSetOfThree(Hand h) {
 		String str = StringGenerator.diff(h);
 		return str.contains("00");
 	}
@@ -149,17 +93,17 @@ public class Rummy {
 		return str.contains("0");
 	}
 
-	public boolean isSeqOfFive(Hand h) {
+	public boolean hasSeqOfFive(Hand h) {
 		String str = StringGenerator.diff(h);
-		return str.equals("1111");
+		return str.contains("1111");
 	}
 
-	public boolean isSeqOfFour(Hand h) {
+	public boolean hasSeqOfFour(Hand h) {
 		String str = StringGenerator.diff(h);
 		return str.contains("111");
 	}
 
-	public boolean isSeqOfThree(Hand h) {
+	public boolean hasSeqOfThree(Hand h) {
 		String str = StringGenerator.diff(h);
 		return str.contains("11");
 
@@ -171,7 +115,7 @@ public class Rummy {
 	}
 
 	public boolean needsOneForSetOfFour(Hand h) {
-		return isSetOfThree(h);
+		return hasSetOfThree(h);
 	}
 
 	public boolean needsOneForSetOfThree(Hand h) {
@@ -179,15 +123,35 @@ public class Rummy {
 	}
 
 	public boolean needsOneForSequenceOfFive(Hand h) {
-		return isSeqOfFour(h);
+		return hasSeqOfFour(h);
 	}
 
 	public boolean needsOneForSequenceOfFour(Hand h) {
-		return isSeqOfThree(h);
+		return hasSeqOfThree(h);
 	}
 
 	public boolean needsOneForSequenceOfThree(Hand h) {
 		return isSeqOfTwo(h);
+	}
+
+	public void consumeSequenceOfFive() {
+
+	}
+
+	public void consumeSequenceOfFour() {
+
+	}
+
+	public void consumeSequenceOfThree() {
+
+	}
+
+	public void consumeSetOfFour() {
+
+	}
+
+	public void consumeSetOfThree() {
+
 	}
 
 }
