@@ -28,6 +28,7 @@ public class Rummy {
 		System.out.println("Sorted hand is : " + this.hand.toString());
 		StringGenerator s = new StringGenerator();
 		String handString = s.diff(this.hand);
+		System.out.println("Hnad : " + handString);
 		String str = getSetsOfFour(handString);
 		System.out.println("Sets of 4 : " + this.setsOfFour);
 		String newStr = getSetsOfThree(str);
