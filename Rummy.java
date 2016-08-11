@@ -5,6 +5,7 @@ public class Rummy {
 	private Hand hand;
 	private int setsOfFour = 0;
 	private int setsOfThree = 0;
+	private int seqOfFive = 0;
 	private int seqOfFour = 0;
 	private int seqOfThree = 0;
 
@@ -28,18 +29,21 @@ public class Rummy {
 		System.out.println("Hand is : " + this.hand.toString());
 		this.hand.sortByFace();
 		System.out.println("Sorted hand is : " + this.hand.toString());
-		StringGenerator s = new StringGenerator();
-		String handString = s.diff(this.hand);
+		String handString = StringGenerator.diff(this.hand);
 		System.out.println("Hand : " + handString);
 		String str = getSetsOfFour(handString);
 		System.out.println("Sets of 4 : " + this.setsOfFour);
-		String newStr = getSetsOfThree(str);
 		System.out.println("Sets of 3 : " + this.setsOfThree);
-		handString = s.diff(this.hand);
-		newStr = getSequencesOfFour(handString);
+		str = getSequencesOfFive(handString);
+		System.out.println("Seqs of 5 : " + this.seqOfFive);
+		str = getSequencesOfFour(str);
 		System.out.println("Seqs of 4 : " + this.seqOfFour);
-		newStr = getSequencesOfThree(newStr);
+		str = getSequencesOfThree(str);
 		System.out.println("Seqs of 3 : " + this.seqOfThree);
+
+		int result = this.setsOfFour * 4 + this.setsOfThree * 3 + this.seqOfFive * 5 + this.seqOfFour * 4
+				+ this.seqOfThree * 3;
+		System.out.println("Cards consumed : " + result);
 
 	}
 
@@ -63,9 +67,6 @@ public class Rummy {
 	}
 
 	public String getSetsOfThree(String str) {
-		if (str.equals("")) {
-
-		}
 		int setCount = 0;
 		if (str.startsWith("00")) {
 			str = str.replaceFirst("00", "##");
@@ -80,6 +81,24 @@ public class Rummy {
 			}
 		}
 		this.setsOfThree = setCount;
+		return str;
+	}
+
+	public String getSequencesOfFive(String str) {
+		int setCount = 0;
+		if (str.startsWith("1111")) {
+			str = str.replaceFirst("1111", "####");
+			setCount++;
+		}
+
+		String[] setsOfFour = { "x1111x", "01111x", "x11110", "011110", "1111" };
+		for (String s : setsOfFour) {
+			while (str.contains(s)) {
+				setCount++;
+				str = str.replaceFirst(s, "##");
+			}
+		}
+		this.seqOfFive = setCount;
 		return str;
 	}
 
@@ -113,6 +132,62 @@ public class Rummy {
 		}
 		this.seqOfThree = setCount;
 		return str;
+	}
+
+	public boolean isSetOfFour(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.equals("000");
+	}
+
+	public boolean isSetOfThree(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.contains("00");
+	}
+
+	public boolean isSetOfTwo(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.contains("0");
+	}
+
+	public boolean isSeqOfFive(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.equals("1111");
+	}
+
+	public boolean isSeqOfFour(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.contains("111");
+	}
+
+	public boolean isSeqOfThree(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.contains("11");
+
+	}
+
+	public boolean isSeqOfTwo(Hand h) {
+		String str = StringGenerator.diff(h);
+		return str.contains("1");
+	}
+
+	public boolean needsOneForSetOfFour(Hand h) {
+		return isSetOfThree(h);
+	}
+
+	public boolean needsOneForSetOfThree(Hand h) {
+		return isSetOfTwo(h);
+	}
+
+	public boolean needsOneForSequenceOfFive(Hand h) {
+		return isSeqOfFour(h);
+	}
+
+	public boolean needsOneForSequenceOfFour(Hand h) {
+		return isSeqOfThree(h);
+	}
+
+	public boolean needsOneForSequenceOfThree(Hand h) {
+		return isSeqOfTwo(h);
 	}
 
 }
