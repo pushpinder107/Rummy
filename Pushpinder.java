@@ -1,58 +1,46 @@
 package structures;
 
-import java.util.List;
-
 public class Pushpinder {
+
+	public static void main(String[] args) {
+		Deck d = new Deck(2, 2);
+		Hand h = new Hand();
+		for (int i = 0; i < 13; i++) {
+			d.shuffle();
+			h.addCard(d.draw());
+		}
+
+		System.out.println(h.toString());
+	}
 
 	public int getSets(Hand hand) {
 		String handStr = "0011xx00";// = //Harsh's function here
 		int setCount = 0;
-		String setOfThree = "000";
-		String setOfFour = "0000";
+		String[] setsOfThree = { "00x", "x00x", "100x", "x001", "1001" };
+		String[] setsOfFour = { "00x", "x000x", "1000x", "x0001", "10001" };
+		String temp = "";
 
 		if (handStr.startsWith("00")) {
-			handStr = handStr.replaceFirst("00", "");
-			setCount++;
-			hand.cardsInHand().remove(0);
-			hand.cardsInHand().remove(1);
-		} else if (handStr.startsWith("000")) {
-			handStr = handStr.replaceFirst("000", "");
-			hand.cardsInHand().remove(0);
-			hand.cardsInHand().remove(1);
-			hand.cardsInHand().remove(2);
+			temp = temp.replaceFirst("00", "");
 			setCount++;
 		}
 
-		if (handStr.contains(setOfFour)) {
-
-			for (int i = 0; i < handStr.length() - 4; i++) {
-				if (handStr.charAt(i) == '0' && handStr.charAt(i + 1) == '0' && handStr.charAt(i + 2) == '0'
-						&& handStr.charAt(i + 3) == '0') {
-					removeCardsBetweenIndices(hand.cardsInHand(), 1, i + 3);
-				}
-				handStr.replaceFirst(setOfFour, "");
+		for (String str : setsOfThree) {
+			if (temp.contains(str)) {
+				setCount++;
+				temp = temp.replaceFirst(str, "");
 			}
-			setCount++;
 		}
 
-		if (handStr.contains(setOfThree)) {
-			for (int i = 0; i < handStr.length() - 4; i++) {
-				if (handStr.charAt(i) == '0' && handStr.charAt(i + 1) == '0' && handStr.charAt(i + 2) == '0') {
-					removeCardsBetweenIndices(hand.cardsInHand(), 1, i + 2);
-				}
+		for (String str : setsOfFour) {
+			if (temp.contains(str)) {
+				setCount++;
+				temp = temp.replaceFirst(str, "");
 			}
-			handStr.replaceFirst(setOfThree, "");
-			setCount++;
 		}
 
 		return setCount;
 
 	}
 
-	public void removeCardsBetweenIndices(List<Card> list, int start, int end) {
-		for (int i = start; i <= end; i++) {
-			list.remove(i);
-		}
-
-	}
 }
