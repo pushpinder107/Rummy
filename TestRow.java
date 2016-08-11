@@ -6,26 +6,62 @@ public class TestRow {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String input = "SDf";
+		String input = "SDf";//pushp fn
 		for(int i=1;i<input.length();i++)
 		{	
-			ArrayList<Row> r =new ArrayList<Row>();//call pushp fn instead new
-			for(int j=0;j<r.size()-1;j++)
-			{
-				Row r1 = r.get(j);
-				Row r2 = r.get(j+1);
-				//help me here how to divide into cases 
-				//we can have 3 cases completely within each other -> result in one row
-				if(r2s range does not intersect with r1 && values are not same ){	//make a boolean fn
-				//new copy into new rows	
-				}
-				if(r2s range does not intersect with r1 && values are same ){	//make a boolean fn
-					//new copy into new rows	
+			ArrayList<Row> rows =new ArrayList<Row>();//input function
+			Row r = rows.get(0);
+			ArrayList<Row> ans = new ArrayList<Row>() ;
+			ans.add(r);
+			for(int j=1;j<rows.size()-1;j++)
+			{	
+				ArrayList<Row> ans2 = new ArrayList<Row>() ;
+				Row newRow = rows.get(j);
+				for(int k = 0; k< ans.size(); k++)
+				{
+					int cases = newRow.getCase(ans.get(k));
+					//Cases are for subset suoersett same etc
+					if(cases == 1){
+						ans2.add(newRow);
+						ans2.add(ans.get(k));
 					}
+					if(cases == 2){
+						ans2.add(ans.get(k));
+						ans2.add(newRow);
+					}
+					if(cases == 3){
+						Row r1 = new Row(ans.get(k).start,newRow.start-1,ans.get(k).track,ans.get(k).code);						
+						//Row r2 = new Row(ans.get(k).start,newRow.start-1,ans.get(k).track,ans.get(k).code);
+						Row r3 = new Row(newRow.end+1,ans.get(k).end,ans.get(k).track,ans.get(k).code);
+						ans2.add(r1);
+						ans2.add(newRow);
+						ans2.add(r3);
+					}
+					if(cases == 4){
+						Row r3 = new Row(newRow.end+1,ans.get(k).end,ans.get(k).track,ans.get(k).code);
+						ans2.add(newRow);
+						ans2.add(r3);
+					}
+					if(cases == 5){
+						Row r1 = new Row(ans.get(k).start,newRow.start-1,ans.get(k).track,ans.get(k).code);
+						ans2.addAll(r3);
+						ans2.add(newRow);						
+						
+					}
+					if(cases == 6)//exact same or newRow is superSet
+					{
+						ans2.add(newRow);
+					}
+					
+					
+				}
+				ans = ans2;		
 						
 			}
+			// call merge function on ans2
 		}
-
+		// call merge function on ans2
+		//return ans2
 	}
 
 }
