@@ -3,6 +3,8 @@ package structures;
 public class Rummy {
 
 	private Hand hand;
+	private int setsOfFour = 0;
+	private int setsOfThree = 0;
 
 	public Rummy() {
 
@@ -26,13 +28,14 @@ public class Rummy {
 		System.out.println("Sorted hand is : " + this.hand.toString());
 		StringGenerator s = new StringGenerator();
 		String handString = s.diff(this.hand);
-
-		System.out.println("Sets of 4 : " + this.getSetsOfFour(handString));
-		System.out.println("Sets of 3 : " + this.getSetsOfThree(handString));
+		String str = getSetsOfFour(handString);
+		System.out.println("Sets of 4 : " + this.setsOfFour);
+		String newStr = getSetsOfThree(str);
+		System.out.println("Sets of 3 : " + this.setsOfThree);
 
 	}
 
-	public int getSetsOfFour(String str) {
+	public String getSetsOfFour(String str) {
 		int setCount = 0;
 
 		if (str.startsWith("000")) {
@@ -42,16 +45,19 @@ public class Rummy {
 
 		String[] setsOfFour = { "000", "x000x", "1000x", "x0001", "10001" };
 		for (String s : setsOfFour) {
-			if (str.contains(s)) {
+			while (str.contains(s)) {
 				setCount++;
-				str.replaceFirst(s, "");
+				str = str.replaceFirst(s, "");
 			}
 		}
-
-		return setCount;
+		this.setsOfFour = setCount;
+		return str;
 	}
 
-	public int getSetsOfThree(String str) {
+	public String getSetsOfThree(String str) {
+		if (str.equals("")) {
+
+		}
 		int setCount = 0;
 		if (str.startsWith("00")) {
 			str = str.replaceFirst("00", "");
@@ -60,13 +66,13 @@ public class Rummy {
 
 		String[] setsOfThree = { "00", "100x", "x001", "1001" };
 		for (String s : setsOfThree) {
-			if (str.contains(s)) {
+			while (str.contains(s)) {
 				setCount++;
-				str.replaceFirst(s, "");
+				str = str.replaceFirst(s, "");
 			}
 		}
-
-		return setCount;
+		this.setsOfThree = setCount;
+		return str;
 	}
 
 }
