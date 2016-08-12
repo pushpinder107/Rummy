@@ -10,25 +10,34 @@ public class TestRow2 {
 		// TODO Auto-generated method stub
 		
 		Row r11 = new Row(1,10,'A',3);
-		Row r22 = new Row(8,14,'A',3);
+		Row r22 = new Row(8,14,'A',2);
+		Row r24 = new Row(2,4,'A',8);
+		Row r23 = new Row(0,0,'X',0);
 		ArrayList<Row> input =new ArrayList<Row>();//input function
 		input.add(r11);
 		input.add(r22);
+		input.add(r24);
+		input.add(r23);
 		ArrayList<Row> ans2;//check this
-		for(int i=1;i<input.size();i++)
-		{	
-			System.out.println("sdf:");
-			Row r = input.get(0);
-			ArrayList<Row> ans = new ArrayList<Row>() ;
-			ans.add(r);
+		for(int i=0;i<input.size();i++)
+			{
+			System.out.println(input.get(i).toString());
+			}
+		Row r = input.get(0);
+		ArrayList<Row> ans = new ArrayList<Row>() ;
+		ans.add(r);		
+//		for(int i=0;i<input.size();i++)
+//		{				
 			for(int j=1;j<input.size()-1;j++)
 			{	
 				ans2 = new ArrayList<Row>() ;
 				Row newRow = input.get(j);
-				for(int k = 0; k< ans.size(); k++)
+				
+				for(int k = 0; k<ans.size(); k++)
 				{
 					int cases = newRow.getCase(ans.get(k));
 					//Cases are for subset suoersett same etc
+					//System.out.println(cases);
 					if(cases == 1){
 						ans2.add(newRow);
 						ans2.add(ans.get(k));
@@ -61,16 +70,24 @@ public class TestRow2 {
 					{
 						ans2.add(newRow);
 					}
+//					for(int i=0;i<input.size();i++)
+//					{
+//					System.out.println(ans2.get(i).toString());
+//					}
 					
-					System.out.println(newRow.toString());
 				}
-				ans = ans2;		
-						
+				ans = ans2;	
+														
 			}
-			// call merge function on ans2
-		}
-		// call merge function on ans2
-		//return ans2;
+			System.out.println("  ");
+			for(int i=0;i<ans.size();i++)
+			{
+			System.out.println(ans.get(i).toString());
+			}
+			
+//		}
+		// call merge function on ans
+		//return ans;
 		//System.out.println(ans2.get(0).toString());
 	}
 
